@@ -1,10 +1,12 @@
-# Project Proposal
+# Project Proposal  
 
-**Title:** *Event-Driven Risk Prediction in AI and Semiconductor Stocks Using Regression and Machine Learning*
+**Title:** *Predicting Corporate Financial Distress Using PCA, K-Means Clustering, and Machine Learning*  
 
-I propose to study how geopolitical and regulatory shocks influence the returns and volatility of AI and semiconductor companies using statistical learning and event analysis. The project focuses on understanding the drivers of risk for key firms in the AI infrastructure ecosystem—such as **NVIDIA**, **AMD**, **TSMC**, **ASML**, **Microsoft**, and **Google**—through data-driven modeling.  
+Following feedback on my initial idea — which relied on modeling the returns of AI-related equities — I decided to reformulate my project. The original topic was deemed too econometric in nature, and I also realized that financial returns and market-based features tend to be extremely noisy, limiting the predictive value of such models. Therefore, I shifted toward a more structured and data-science–aligned approach using firm fundamentals.  
 
-Using daily market data, I will construct rolling volatility, drawdown, and trading activity features. Several predictive models—**linear** and **LASSO regression** for volatility, and **logistic classification** for “stress-day” detection—will be trained and evaluated using standard performance metrics (**R²**, **accuracy**, **ROC-AUC**). In addition, I will implement a **Difference-in-Differences (DiD)** regression to test whether major geopolitical events (such as U.S.–China export restrictions or Taiwan-related tensions) produce significant abnormal returns in AI-related stocks compared to broader technology peers.  
+This project applies a hybrid learning framework combining unsupervised and supervised methods to predict corporate financial distress using firm-level accounting and market data. The goal is to identify patterns of financial vulnerability and develop an interpretable, data-driven risk classification system.  
 
-The final analysis will provide insights into how political and supply chain risks shape the short-term dynamics of AI-driven equities, highlighting which events and features have the strongest influence on market behavior.
+Using **Capital IQ** and **Datastream**, I will collect financial ratios capturing profitability, leverage, liquidity, and growth. **Principal Component Analysis (PCA)** will extract the key latent factors summarizing firms’ financial structures, and **K-Means clustering** will group firms into archetypes with similar profiles (e.g., stable, leveraged, or high-growth). A **supervised classifier** (e.g., logistic regression or random forest) will then predict the likelihood of future distress based on these PCA components and cluster labels.  
+
+Model accuracy, recall, and ROC-AUC will be used for evaluation, while PCA loadings and feature importance will ensure interpretability.  
 
