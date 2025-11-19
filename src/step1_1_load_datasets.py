@@ -153,14 +153,13 @@ def load_mapping():
     print("4. Loading Mapping (GVKEY ↔ IQT ↔ Company Name)...")
     filepath = DATA_DIR / 'GVKEY IQT Name matching .csv'
     
-    # Try different separators
-    mapping = load_with_encoding(filepath)
+    # Load without header since file has no header row
+    mapping = load_with_encoding(filepath, header=None)
     
-    # Standardize column names if needed
+    # Assign column names
     if len(mapping.columns) >= 3:
-        # Assume first 3 columns are gvkey, iqt, company_name
-        mapping.columns = ['gvkey', 'iqt', 'company_name'] + list(mapping.columns[3:])
-        print(f"    ✓ Standardized column names: {list(mapping.columns)}")
+        mapping.columns = ['gvkey', 'iqt', 'company_name'] + [f'col_{i}' for i in range(3, len(mapping.columns))]
+        print(f"    ✓ Assigned column names: {list(mapping.columns[:3])}")
     
     print()
     
