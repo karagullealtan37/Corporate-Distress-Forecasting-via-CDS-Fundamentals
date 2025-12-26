@@ -30,7 +30,7 @@ The repository includes all data files, code, and dependencies.
 pip3 install -r requirements.txt
 ```
 
-**Option B: Using conda (recommended for Nuvolos/EPFL)**
+**Option B: Using conda (recommended for Nuvolos)**
 ```bash
 conda env create -f environment.yml
 conda activate cds-distress-prediction
@@ -48,7 +48,7 @@ python3 main.py
 
 This executes:
 1. **Pipeline Steps (1-15):** Data processing, feature engineering, model training, evaluation (~8-10 min)
-2. **XGBoost Experiments (6 total):** Overfitting reduction, feature selection, cross-validation (~2-5 min)
+2. **XGBoost Experiments (5 total):** Overfitting reduction, feature selection, cross-validation (~2-5 min)
 
 **Total Runtime:** ~10-15 minutes on MacBook Pro M1
 
@@ -75,7 +75,7 @@ After running `python3 main.py`, you will find:
 
 ### Models
 - `output/models/xgboost_optimized.pkl` - Pipeline XGBoost model
-- `output/experiments/models/exp16_xgboost_top10.pkl` - **Recommended model** (Top 10 features)
+- `output/experiments/models/xgboost_strong_reg_top10_shap.pkl` - **Recommended model** (Top 10 SHAP features)
 
 ### Results
 - `output/step13_evaluation_results.csv` - Pipeline evaluation metrics
@@ -114,13 +114,12 @@ CDS Project/
 │   ├── ...
 │   └── step15_explainability.py
 │
-├── experiments/             # XGBoost experiments (6 total)
+├── experiments/             # XGBoost experiments (5 total)
 │   ├── exp1b_reduce_overfitting_xgboost.py
 │   ├── exp1c_strong_reg_top10_shap.py
 │   ├── exp1d_final_model_cv.py
 │   ├── exp1e_cds_only_comparison.py
-│   ├── exp1f_three_way_cv_comparison.py
-│   └── exp16_temporal_feature_selection.py
+│   └── exp1f_three_way_cv_comparison.py
 │
 ├── data/                    # Raw data files (place your data here)
 ├── output/                  # Generated models and results
