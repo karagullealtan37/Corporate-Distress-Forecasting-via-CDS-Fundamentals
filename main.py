@@ -85,7 +85,6 @@ def run_xgboost_experiments():
     print("  • Exp 1d: XGBoost Final Model Cross-Validation")
     print("  • Exp 1e: XGBoost CDS-Only vs Full Features")
     print("  • Exp 1f: Three-Way CV Comparison (Naive → CDS-Only → Top 10)")
-    print("  • Exp 16: XGBoost Temporal Feature Selection (Top 10)")
     print("\n" + "="*70 + "\n")
     
     experiments = [
@@ -94,7 +93,6 @@ def run_xgboost_experiments():
         ("Exp 1d: XGBoost Final Model CV", "exp1d_final_model_cv"),
         ("Exp 1e: XGBoost CDS-Only Comparison", "exp1e_cds_only_comparison"),
         ("Exp 1f: Three-Way CV Comparison", "exp1f_three_way_cv_comparison"),
-        ("Exp 16: XGBoost Feature Selection", "exp16_temporal_feature_selection"),
     ]
     
     completed = 0
@@ -136,7 +134,6 @@ def print_story_highlights(run_pipeline, run_exps):
         print("  • Exp 1d: Cross-validation → Temporal robustness confirmed")
         print("  • Exp 1e: CDS-only comparison → Model sophistication = 77% of gains")
         print("  • Exp 1f: Three-way CV → Naive (0.472) → CDS-only (0.533) → Top 10 (0.555)")
-        print("  • Exp 16: Feature selection → 10 features, AUC 0.636, simpler & faster")
 
 
 def main():
@@ -185,13 +182,12 @@ def main():
         print("  • Steps 13-15: Evaluation and explainability")
     
     if run_exps:
-        print("\n🎯 XGBOOST EXPERIMENTS (6 total):")
+        print("\n🎯 XGBOOST EXPERIMENTS (5 total):")
         print("  • Exp 1b: Overfitting reduction (progressive regularization)")
         print("  • Exp 1c: Top 10 SHAP features (strong regularization)")
         print("  • Exp 1d: Final model cross-validation")
         print("  • Exp 1e: CDS-only vs full features comparison")
         print("  • Exp 1f: Three-way CV (naive → CDS-only → Top 10)")
-        print("  • Exp 16: Temporal feature selection")
     
     print("\n" + "="*70 + "\n")
     
@@ -287,14 +283,14 @@ def main():
     print("="*70)
     
     if run_exps:
-        print(f"\n🏆 BEST MODEL: XGBoost Top 10 Features")
-        print(f"   📂 Location: output/experiments/models/exp16_xgboost_top10.pkl")
+        print(f"\n🏆 BEST MODEL: XGBoost Top 10 SHAP Features (Strong Regularization)")
+        print(f"   📂 Location: output/experiments/models/xgboost_strong_reg_top10_shap.pkl")
         print(f"   📊 Performance:")
         print(f"      • Test AUC: 0.636 (+58.2% vs naive baseline)")
         print(f"      • Precision: 30.0%, Recall: 72.0%")
         print(f"      • F1 Score: 0.420")
         print(f"   ⚡ Features: 10 (vs 29 full set = 66% reduction)")
-        print(f"   ✅ Benefits: Simpler, faster, more interpretable")
+        print(f"   ✅ Benefits: Simpler, faster, more interpretable, strong regularization")
         print(f"\n   📈 Key Finding: Model sophistication = 77% of gains")
         print(f"      • Naive CDS threshold → XGBoost CDS-only: +44.8% (0.402 → 0.582)")
         print(f"      • XGBoost CDS-only → XGBoost Top 10: +9.3% (0.582 → 0.636)")
@@ -321,7 +317,7 @@ def main():
     if run_exps:
         exp_td = timedelta(seconds=int(exp_time))
         print(f"\n🎯 XGBoost Experiments: {exp_td} ({exp_time:.1f}s)")
-        print(f"   • Average per experiment: {exp_time/6:.1f}s")
+        print(f"   • Average per experiment: {exp_time/5:.1f}s")
     
     total_td = timedelta(seconds=int(total_elapsed))
     print(f"\n⏱️  TOTAL RUNTIME: {total_td} ({total_elapsed:.1f}s)")
