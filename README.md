@@ -25,8 +25,15 @@ The repository includes all data files, code, and dependencies.
 
 **Required:** Python 3.11+ (tested with Python 3.11.2)
 
+**Option A: Using pip (recommended for local development)**
 ```bash
 pip3 install -r requirements.txt
+```
+
+**Option B: Using conda (recommended for Nuvolos/EPFL)**
+```bash
+conda env create -f environment.yml
+conda activate cds-distress-prediction
 ```
 
 ---
