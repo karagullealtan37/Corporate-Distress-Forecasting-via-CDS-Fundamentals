@@ -206,7 +206,6 @@ def main():
         ("Step 11: Model Training", "step11_model_training"),
         ("Step 12: Model Optimization", "step12_model_optimization"),
         ("Step 13: Model Evaluation", "step13_model_evaluation"),
-        ("Step 13b: Confidence Intervals", "step13b_confidence_intervals"),
         ("Step 14: Benchmark Comparison", "step14_benchmark_comparison"),
         ("Step 15: Explainability Analysis", "step15_explainability"),
     ]
