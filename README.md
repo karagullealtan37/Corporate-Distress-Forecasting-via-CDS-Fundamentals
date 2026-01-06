@@ -30,7 +30,7 @@ The repository includes all data files, code, and dependencies.
 pip3 install -r requirements.txt
 ```
 
-**Option B: Using conda (recommended for Nuvolos)**
+**Option B: Using conda (recommended for Nuvolos/EPFL)**
 ```bash
 conda env create -f environment.yml
 conda activate cds-distress-prediction
@@ -103,27 +103,30 @@ After running `python3 main.py`, you will find:
 
 ```
 CDS Project/
-├── main.py                  # Entry point - Run this!
-├── README.md                # This file
-├── report_final.tex         # LaTeX report
-├── requirements.txt         # Python dependencies
+├── main.py                  # Main entry point (runs full pipeline)
+├── README.md                # Reproducibility and execution instructions
+├── requirements.txt         # pip-based Python dependencies
+├── environment.yml          # Conda environment specification
 │
-├── src/                     # 15-step pipeline
+├── src/                     # Core 15-step deterministic pipeline
 │   ├── step1_data_inspection.py
 │   ├── step2_data_quality.py
+│   ├── step3_data_cleaning.py
+│   ├── step4_data_merging.py
+│   ├── step5_preprocessing.py
 │   ├── ...
 │   └── step15_explainability.py
 │
-├── experiments/             # XGBoost experiments (5 total)
+├── experiments/             # Exploratory and diagnostic experiments
+│   ├── exp1_reduce_overfitting.py
 │   ├── exp1b_reduce_overfitting_xgboost.py
 │   ├── exp1c_strong_reg_top10_shap.py
-│   ├── exp1d_final_model_cv.py
-│   ├── exp1e_cds_only_comparison.py
-│   └── exp1f_three_way_cv_comparison.py
+│   ├── ...
+│   └── exp6_combined_optimization.py
 │
-├── data/                    # Raw data files (place your data here)
-├── output/                  # Generated models and results
-└── report/figures/          # Generated figures
+├── data/                    # Processed datasets (Compustat, Capital IQ)
+├── output/                  # Serialized models, preprocessors, figures
+└── report/figures/          # Figures used in the final report
 ```
 
 ---
