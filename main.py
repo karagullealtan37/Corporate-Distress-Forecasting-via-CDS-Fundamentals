@@ -1,14 +1,14 @@
 """
 Corporate Distress Prediction - Main Pipeline
-Runs the complete 15-step ML pipeline + XGBoost experiments from raw data.
+Runs the complete 15-step ML pipeline + all experiments from raw data.
 
 All steps execute from scratch with full terminal output.
 No cached results - everything is recomputed.
 
 Usage:
-    python main.py                    # Run full pipeline + XGBoost experiments
+    python main.py                    # Run full pipeline + all experiments
     python main.py --pipeline-only    # Run pipeline steps only
-    python main.py --experiments-only # Run XGBoost experiments only
+    python main.py --experiments-only # Run all experiments only
     python main.py --help             # Show options
 """
 
@@ -66,7 +66,7 @@ def run_step(step_name, module_name, folder='src'):
         
     except Exception as e:
         elapsed = time.time() - start_time
-        print(f"\n❌ {step_name} failed with error (⏱️  {elapsed:.1f}s):")
+        print(f"\n {step_name} failed with error (⏱️  {elapsed:.1f}s):")
         print(f"   {str(e)}\n")
         import traceback
         traceback.print_exc()
@@ -74,25 +74,35 @@ def run_step(step_name, module_name, folder='src'):
 
 
 def run_xgboost_experiments():
-    """Run XGBoost-specific experiments only."""
+    """Run all experiments."""
     
     print("\n" + "="*70)
-    print("  XGBOOST EXPERIMENTS - FROM RAW DATA")
+    print("  ALL EXPERIMENTS - FROM RAW DATA")
     print("="*70)
-    print("\nRunning XGBoost-specific experiments:")
+    print("\nRunning all experiments:")
+    print("  • Exp 1: Overfitting Reduction")
     print("  • Exp 1b: XGBoost Overfitting Reduction (Progressive Regularization)")
     print("  • Exp 1c: XGBoost Top 10 SHAP Features (Strong Regularization)")
     print("  • Exp 1d: XGBoost Final Model Cross-Validation")
     print("  • Exp 1e: XGBoost CDS-Only vs Full Features")
     print("  • Exp 1f: Three-Way CV Comparison (Naive → CDS-Only → Top 10)")
+    print("  • Exp 4: Optimize Recall")
+    print("  • Exp 5: Temporal Features")
+    print("  • Exp 6: Combined Optimization")
+    print("  • Exp 16: Incremental Value CV")
     print("\n" + "="*70 + "\n")
     
     experiments = [
+        ("Exp 1: Overfitting Reduction", "exp1_reduce_overfitting"),
         ("Exp 1b: XGBoost Overfitting Reduction", "exp1b_reduce_overfitting_xgboost"),
         ("Exp 1c: XGBoost Top 10 SHAP", "exp1c_strong_reg_top10_shap"),
         ("Exp 1d: XGBoost Final Model CV", "exp1d_final_model_cv"),
         ("Exp 1e: XGBoost CDS-Only Comparison", "exp1e_cds_only_comparison"),
         ("Exp 1f: Three-Way CV Comparison", "exp1f_three_way_cv_comparison"),
+        ("Exp 4: Optimize Recall", "exp4_optimize_recall"),
+        ("Exp 5: Temporal Features", "exp5_temporal_features"),
+        ("Exp 6: Combined Optimization", "exp6_combined_optimization"),
+        ("Exp 16: Incremental Value CV", "exp16_incremental_value_cv"),
     ]
     
     completed = 0
@@ -100,7 +110,7 @@ def run_xgboost_experiments():
     total_time = 0
     
     for i, (exp_name, module_name) in enumerate(experiments, 1):
-        print(f"\n[XGBoost Experiment {i}/{len(experiments)}]")
+        print(f"\n[Experiment {i}/{len(experiments)}]")
         
         success, elapsed = run_step(exp_name, module_name, folder='experiments')
         total_time += elapsed
@@ -109,7 +119,7 @@ def run_xgboost_experiments():
             completed += 1
         else:
             failed.append(exp_name)
-            print(f"\n⚠️  Warning: {exp_name} failed but continuing...\n")
+            print(f"\n  Warning: {exp_name} failed but continuing...\n")
     
     return completed, failed, len(experiments), total_time
 
@@ -121,14 +131,14 @@ def print_story_highlights(run_pipeline, run_exps):
     print("="*70)
     
     if run_pipeline:
-        print("\n📊 PIPELINE STEPS (1-15): Complete data processing and model training")
+        print("\n PIPELINE STEPS (1-15): Complete data processing and model training")
         print("  • Steps 1-4: Raw data → cleaned, merged dataset (600 firms, 28K observations)")
         print("  • Steps 5-9: Feature engineering → 29 features + distress target")
         print("  • Steps 10-12: Model training → XGBoost (AUC 0.632, F1 0.390)")
         print("  • Steps 13-15: Evaluation → Test performance + SHAP explainability")
     
     if run_exps:
-        print("\n🎯 XGBOOST EXPERIMENTS: Progressive improvement journey")
+        print("\n XGBOOST EXPERIMENTS: Progressive improvement journey")
         print("  • Exp 1b: Overfitting reduction → Train-test gap from 31.4% to 5.1%")
         print("  • Exp 1c: Top 10 SHAP features → Strong regularization + parsimony")
         print("  • Exp 1d: Cross-validation → Temporal robustness confirmed")
@@ -137,22 +147,22 @@ def print_story_highlights(run_pipeline, run_exps):
 
 
 def main():
-    """Run the complete ML pipeline from raw data with XGBoost experiments."""
+    """Run the complete ML pipeline from raw data with all experiments."""
     
     # Start total timer
     total_start_time = time.time()
     
     # Parse command line arguments
     run_pipeline = True
-    run_exps = True  # Run XGBoost experiments by default
+    run_exps = True  # Run all experiments by default
     
     if len(sys.argv) > 1:
         arg = sys.argv[1]
         if arg in ['--help', '-h']:
             print("\nUsage:")
-            print("  python main.py                    # Run pipeline + XGBoost experiments (default)")
+            print("  python main.py                    # Run pipeline + all experiments (default)")
             print("  python main.py --pipeline-only    # Run pipeline steps only")
-            print("  python main.py --experiments-only # Run XGBoost experiments only")
+            print("  python main.py --experiments-only # Run all experiments only")
             print("  python main.py --help             # Show this help\n")
             print("Note: All steps execute from scratch. No cached outputs are used.")
             return 0
@@ -163,7 +173,7 @@ def main():
             run_pipeline = False
             run_exps = True
         else:
-            print(f"\n❌ Unknown argument: {arg}")
+            print(f"\n Unknown argument: {arg}")
             print("Use --help to see available options\n")
             return 1
     
@@ -182,12 +192,17 @@ def main():
         print("  • Steps 13-15: Evaluation and explainability")
     
     if run_exps:
-        print("\n🎯 XGBOOST EXPERIMENTS (5 total):")
-        print("  • Exp 1b: Overfitting reduction (progressive regularization)")
+        print("\n ALL EXPERIMENTS (10 total):")
+        print("  • Exp 1: Overfitting reduction")
+        print("  • Exp 1b: XGBoost overfitting reduction (progressive regularization)")
         print("  • Exp 1c: Top 10 SHAP features (strong regularization)")
         print("  • Exp 1d: Final model cross-validation")
         print("  • Exp 1e: CDS-only vs full features comparison")
         print("  • Exp 1f: Three-way CV (naive → CDS-only → Top 10)")
+        print("  • Exp 4: Optimize recall")
+        print("  • Exp 5: Temporal features")
+        print("  • Exp 6: Combined optimization")
+        print("  • Exp 16: Incremental value CV")
     
     print("\n" + "="*70 + "\n")
     
@@ -206,7 +221,6 @@ def main():
         ("Step 11: Model Training", "step11_model_training"),
         ("Step 12: Model Optimization", "step12_model_optimization"),
         ("Step 13: Model Evaluation", "step13_model_evaluation"),
-        ("Step 13b: Confidence Intervals", "step13b_confidence_intervals"),
         ("Step 14: Benchmark Comparison", "step14_benchmark_comparison"),
         ("Step 15: Explainability Analysis", "step15_explainability"),
     ]
@@ -254,13 +268,13 @@ def main():
     
     if run_exps:
         exp_total = exp_completed + len(exp_failed)
-        print(f"\n🎯 XGBoost Experiments: {exp_completed}/{exp_total} experiments completed")
+        print(f"\n🎯 Experiments: {exp_completed}/{exp_total} experiments completed")
         if exp_failed:
             print(f"    Failed: {len(exp_failed)} experiment(s)")
             for exp in exp_failed:
                 print(f"      - {exp}")
         else:
-            print("    All XGBoost experiments completed successfully!")
+            print("    All experiments completed successfully!")
 
     print_story_highlights(run_pipeline, run_exps)
 
@@ -268,12 +282,12 @@ def main():
     print("  OUTPUT LOCATIONS")
     print("="*70)
     print(f"\n📁 Processed Data:       {PROJECT_ROOT / 'output'}")
-    print(f"🤖 Pipeline Models:      {PROJECT_ROOT / 'output' / 'models'}")
-    print(f"📊 Pipeline Figures:     {PROJECT_ROOT / 'report' / 'figures'}")
-    print(f"📈 Evaluation Results:   {PROJECT_ROOT / 'output' / 'step13_evaluation_results.csv'}")
+    print(f" Pipeline Models:      {PROJECT_ROOT / 'output' / 'models'}")
+    print(f"Pipeline Figures:     {PROJECT_ROOT / 'report' / 'figures'}")
+    print(f" Evaluation Results:   {PROJECT_ROOT / 'output' / 'step13_evaluation_results.csv'}")
     
     if run_exps:
-        print(f"\n🎯 XGBoost Experiment Outputs:")
+        print(f"\n Experiment Outputs:")
         print(f"   • Models:  {PROJECT_ROOT / 'output' / 'experiments' / 'models'}")
         print(f"   • Figures: {PROJECT_ROOT / 'report' / 'figures' / 'experiments'}")
         print(f"   • Results: {PROJECT_ROOT / 'output' / 'experiments'}")
@@ -316,8 +330,8 @@ def main():
     
     if run_exps:
         exp_td = timedelta(seconds=int(exp_time))
-        print(f"\n🎯 XGBoost Experiments: {exp_td} ({exp_time:.1f}s)")
-        print(f"   • Average per experiment: {exp_time/5:.1f}s")
+        print(f"\n🎯 Experiments: {exp_td} ({exp_time:.1f}s)")
+        print(f"   • Average per experiment: {exp_time/10:.1f}s")
     
     total_td = timedelta(seconds=int(total_elapsed))
     print(f"\n⏱️  TOTAL RUNTIME: {total_td} ({total_elapsed:.1f}s)")
