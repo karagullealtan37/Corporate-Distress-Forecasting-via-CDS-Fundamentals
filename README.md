@@ -30,7 +30,7 @@ The repository includes all data files, code, and dependencies.
 pip3 install -r requirements.txt
 ```
 
-**Option B: Using conda (recommended for Nuvolos/EPFL)**
+**Option B: Using conda (recommended for Nuvolos)**
 ```bash
 conda env create -f environment.yml
 conda activate cds-distress-prediction
